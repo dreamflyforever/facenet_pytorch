@@ -15,7 +15,7 @@ mtcnn = MTCNN(image_size= 360, margin = 0)
 
 # face database
 WSI_MASK_PATH = 'photo_dataset'
-paths = glob.glob(os.path.join(WSI_MASK_PATH, '*.png'))
+paths = glob.glob(os.path.join(WSI_MASK_PATH, '*'))
 paths.sort()
 tmp = []
 for i in paths:
@@ -37,10 +37,10 @@ img = Image.open("photo_dataset/jim.png")
 #print(img.mode)
 img = img.convert('RGB')
 # Get cropped and prewhitened image tensor
-img_cropped = mtcnn(img, save_path="photo_dataset/360.jpg")
+img_cropped = mtcnn(img, save_path="checkface.jpg")
 
 # Calculate embedding (unsqueeze to add batch dimension)
 img_embedding = resnet(img_cropped.unsqueeze(0))
 for index in range(len(img_embedding_list)):
     dis = np.linalg.norm(img_embedding.detach().numpy() - img_embedding_list[index][0].detach().numpy())
-    print("distense:{} : {} ".format(dis, img_embedding_list[index][1]))
+    print("{} : distense:{} ".format(img_embedding_list[index][1], dis))
